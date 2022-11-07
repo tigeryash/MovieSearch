@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Movie from './Movies';
 
 export default function SearchMovies() {
   const [query, setQuery] = useState('');
@@ -7,14 +8,13 @@ export default function SearchMovies() {
 
   const url = `https://api.themoviedb.org/3/search/movie?api_key=6be4d988dcd915e058b29a7547e2164b&language=en-US&query=${query}&page=1&include_adult=false`;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (clicked) {
       fetch(url)
         .then((resp) => resp.json())
         .then((data) => {
-          console.log(data);
-          console.log(query);
           setMovies(data.results);
+
           setClicked(false);
         });
     }
@@ -28,20 +28,29 @@ export default function SearchMovies() {
   function handleChange(event) {
     setQuery(event.target.value);
   }
+
+  const displayMovies = movies
+    .filter((movie) => movie.poster_path)
+    .map((movie, index) => <Movie movie={movie} />);
+
   return (
-    <form className="form" onSubmit={(e) => handleSubmit(e)}>
-      <label className="label" htmlFor="query"></label>
-      <input
-        type="text"
-        className="input"
-        name="query"
-        placeholder="Search here"
-        value={query}
-        onChange={handleChange}
-      />
-      <button className="button" type="submit">
-        Search
-      </button>
-    </form>
+    <>
+      <form className="form" onSubmit={(e) => handleSubmit(e)}>
+        <label className="label" htmlFor="query"></label>
+        <input
+          type="text"
+          className="input"
+          name="query"
+          placeholder="Search here"
+          value={query}
+          onChange={handleChange}
+        />
+        <button className="button" type="submit">
+          Search
+        </button>
+      </form>
+
+      {displayMovies}
+    </>
   );
 }
