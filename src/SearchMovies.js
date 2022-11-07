@@ -49,8 +49,9 @@ export default function SearchMovies() {
           Search
         </button>
       </form>
-
-      {displayMovies}
+      <div className="card-list">
+        {displayMovies}
+      </div>
     </>
   );
 }

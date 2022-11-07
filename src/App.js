@@ -5,9 +5,8 @@ import './style.css';
 export default function App() {
   return (
     <div className="container">
-      <h1 className="title">Hello StackBlitz!</h1>
+      <h1 className="title">Movie Search</h1>
       <SearchMovies />
-      <p>Start editing to see some magic happen :)</p>
     </div>
   );
 }
